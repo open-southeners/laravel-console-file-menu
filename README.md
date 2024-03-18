@@ -1,6 +1,6 @@
 # Laravel Console File Menu [![required php version](https://img.shields.io/packagist/php-v/open-southeners/laravel-console-file-menu)](https://www.php.net/supported-versions.php) [![codecov](https://codecov.io/gh/open-southeners/laravel-console-file-menu/branch/main/graph/badge.svg?token=BpXj7Mh1c9)](https://codecov.io/gh/open-southeners/laravel-console-file-menu) [![Edit on VSCode online](https://img.shields.io/badge/vscode-edit%20online-blue?logo=visualstudiocode)](https://vscode.dev/github/open-southeners/laravel-console-file-menu)
 
-Like NunoMaduro's [console file menu package](https://github.com/nunomaduro/laravel-console-menu) but for files
+Like NunoMaduro's [console menu package](https://github.com/nunomaduro/laravel-console-menu) but for files.
 
 ![screenshot](art/screenshot.png)
 
