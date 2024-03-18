@@ -1,7 +1,8 @@
 <?php
 
-namespace OpenSoutheners\PhpPackage;
+namespace OpenSoutheners\LaravelConsoleFileMenu;
 
+use Illuminate\Console\Command;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
 class ServiceProvider extends BaseServiceProvider
@@ -13,16 +14,8 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function boot()
     {
-        // 
-    }
-
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        // 
+        Command::macro('fileMenu', function (string $basePath = '') {
+            return new FileMenu($basePath);
+        });
     }
 }

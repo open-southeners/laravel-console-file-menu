@@ -1,22 +1,32 @@
-title_goes_here [![required php version](https://img.shields.io/packagist/php-v/open-southeners/packagist_package_here)](https://www.php.net/supported-versions.php) [![codecov](https://codecov.io/gh/open-southeners/packagist_package_here/branch/main/graph/badge.svg?token=codecov_badge_token)](https://codecov.io/gh/open-southeners/packagist_package_here) [![Edit on VSCode online](https://img.shields.io/badge/vscode-edit%20online-blue?logo=visualstudiocode)](https://vscode.dev/github/open-southeners/packagist_package_here)
-===
+# Laravel Console File Menu [![required php version](https://img.shields.io/packagist/php-v/open-southeners/laravel-console-file-menu)](https://www.php.net/supported-versions.php) [![codecov](https://codecov.io/gh/open-southeners/laravel-console-file-menu/branch/main/graph/badge.svg?token=BpXj7Mh1c9)](https://codecov.io/gh/open-southeners/laravel-console-file-menu) [![Edit on VSCode online](https://img.shields.io/badge/vscode-edit%20online-blue?logo=visualstudiocode)](https://vscode.dev/github/open-southeners/laravel-console-file-menu)
 
-and_description_here
+Like NunoMaduro's [console file menu package](https://github.com/nunomaduro/laravel-console-menu) but for files
 
-**Search & replace:**
-
-| Keys                                                      | Replacement                                                   |
-| --------------------------------------------------------- | ------------------------------------------------------------- |
-| `title_goes_here`                                         | Fancy title from the repository (only README and stuff)       |
-| `and_description_here`                                    | Short package description (only for README and composer.json) |
-| `packagist_package_here`                                  | Packagist (composer) published package name                   |
-| `codecov_badge_token`                                           | Codecov token for the coverage badge                          |
-| `OpenSoutheners\PhpPackage`, `OpenSoutheners\\PhpPackage` | PSR-0 and PSR-4 complaint package namespace                   |
+![screenshot](art/screenshot.png)
 
 ## Getting started
 
 ```
-composer require open-southeners/packagist_package_here
+composer require open-southeners/laravel-console-file-menu
+```
+
+Start using it by copying code from below:
+
+```php
+use NunoMaduro\LaravelConsoleMenu\Menu;
+
+// In between your command's code:
+$result = $this->fileMenu('/base/path')
+    // Customise the underlying menu here: https://github.com/php-school/cli-menu?tab=readme-ov-file#appearance
+    ->customise(fn (Menu $menu) => $menu->setForegroundColour('green')
+        ->setBackgroundColour('black')
+    )
+    ->onlyDirectories(false)
+    ->hideFileExtensions(false)
+    ->respectIgnored(true)
+    ->open();
+
+// $result will contain the full file/directory selected path or null otherwise
 ```
 
 ## Partners
