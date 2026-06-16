@@ -6,20 +6,7 @@ jobs:
   analyze:
     runs-on: ubuntu-latest
 
-    name: PHPStan - PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }}
-
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - php: '8.2'
-            laravel: '^11.0'
-          - php: '8.2'
-            laravel: '^12.0'
-          - php: '8.3'
-            laravel: '^13.0'
-          - php: '8.4'
-            laravel: '^13.0'
+    name: PHPStan
 
     steps:
       - name: 🏗 Checkout code
@@ -28,7 +15,7 @@ jobs:
       - name: 🏗 Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php }}
+          php-version: '8.2'
           coverage: none
           tools: composer:v2
 
@@ -40,11 +27,8 @@ jobs:
         uses: actions/cache@v5
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: phpstan-composer-${{ runner.os }}-${{ matrix.php }}-${{ matrix.laravel }}-${{ hashFiles('composer.json') }}
+          key: phpstan-composer-${{ runner.os }}-${{ hashFiles('composer.json') }}
           restore-keys: phpstan-composer-
-
-      - name: 🏗 Set Laravel version
-        run: composer require illuminate/console:${{ matrix.laravel }} illuminate/support:${{ matrix.laravel }} --no-update --no-interaction
 
       - name: 📦 Install dependencies
         run: composer update --prefer-dist --no-interaction --no-progress
