@@ -6,3 +6,9 @@ updates:
     schedule:
       # Check for updates to GitHub Actions every week
       interval: "weekly"
+
+  - package-ecosystem: "composer"
+    directory: "/"
+    schedule:
+      # Check for Composer dependency updates every week
+      interval: "weekly"
