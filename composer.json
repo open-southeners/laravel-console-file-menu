@@ -36,7 +36,7 @@
         "symfony/finder": "^7.0"
     },
     "require-dev": {
-        "larastan/larastan": "^3.0",
+        "laravel/pint": "^1.24",
         "phpstan/phpstan": "^2.0",
         "phpunit/phpunit": "^11.0"
     },
@@ -46,6 +46,16 @@
         "psr-4": {
             "OpenSoutheners\\LaravelConsoleFileMenu\\": "src"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "OpenSoutheners\\LaravelConsoleFileMenu\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "analyse": "phpstan analyse",
+        "format": "pint",
+        "test": "phpunit"
     },
     "config": {
         "sort-packages": true

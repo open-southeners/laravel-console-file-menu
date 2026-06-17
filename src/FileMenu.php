@@ -3,9 +3,10 @@
 namespace OpenSoutheners\LaravelConsoleFileMenu;
 
 use Closure;
-use NunoMaduro\LaravelConsoleMenu\Menu;
-use Symfony\Component\Finder\Finder;
 use Illuminate\Support\Str;
+use NunoMaduro\LaravelConsoleMenu\Menu;
+use OpenSoutheners\LaravelConsoleFileMenu\Contracts\FileMenuDriver;
+use Symfony\Component\Finder\Finder;
 
 class FileMenu
 {
@@ -19,9 +20,12 @@ class FileMenu
 
     private bool $ignored = true;
 
-    public function __construct(private string $basePath = '')
+    /**
+     * @param  (Closure(string): FileMenuDriver)|null  $menuFactory
+     */
+    public function __construct(private string $basePath = '', private ?Closure $menuFactory = null)
     {
-        $this->basePath = $basePath ?: getcwd();
+        $this->basePath = $basePath ?: (getcwd() ?: '');
         $this->currentPath = $this->basePath;
     }
 
@@ -52,7 +56,7 @@ class FileMenu
      */
     public function hideFileExtensions(bool $value = true): self
     {
-        $this->fileExtensions = !$value;
+        $this->fileExtensions = ! $value;
 
         return $this;
     }
@@ -77,17 +81,17 @@ class FileMenu
         $pickedPath = null;
 
         while (! $pickedPath) {
-            $menu = new Menu($this->currentPath);
+            $menu = $this->makeMenu($this->currentPath);
 
             if ($this->customiseCallback) {
-                call_user_func($this->customiseCallback, $menu);
+                $menu->customise($this->customiseCallback);
             }
 
             $menuSelection = $menu->disableDefaultItems()
                 ->addOptions($this->scratchSurface())
                 ->open();
 
-            if (is_file($menuSelection)) {
+            if (is_string($menuSelection) && is_file($menuSelection)) {
                 $this->currentPath = $menuSelection;
             }
 
@@ -101,8 +105,19 @@ class FileMenu
         return $pickedPath;
     }
 
+    private function makeMenu(string $path): FileMenuDriver
+    {
+        if ($this->menuFactory) {
+            return call_user_func($this->menuFactory, $path);
+        }
+
+        return new LaravelConsoleMenuDriver(new Menu($path));
+    }
+
     /**
      * Scratch first level of files (surface) from current path.
+     *
+     * @return array<string, string>
      */
     private function scratchSurface(): array
     {
